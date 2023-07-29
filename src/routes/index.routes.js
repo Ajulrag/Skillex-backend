@@ -7,16 +7,19 @@ const router = express.Router();
 
 
 
-
+router.get('/', (req,res) => {
+    res.json('welcome home')
+})
 router.post('/signup', userSignUp);
 router.post('/login', userLogin);
 router.post('/verify-email', verifyEmail);
+
 router.post('/verify-token',verifyToken)
 
 router.get('/resend-email/:id', resendEmail)
 router.get('/user/confirm?', verifyEmail)
 
-router.put('/instructor/signup',tokenVerification, insrtructorSignUp)
+router.put('/instructor/signup', insrtructorSignUp)
 
 
 module.exports = router;

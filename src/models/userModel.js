@@ -32,10 +32,10 @@ const userSchema = new Schema({
     default: false
   },
   instructor_details:{
-    experience_mode:{
-     type:String,
-    },
     experience_years:{
+     type:Number,
+    },
+    field_of_study:{
      type:String,
     }
  },
@@ -50,17 +50,9 @@ const userSchema = new Schema({
   profile_image:{
     type: String
   },
-  confirmationToken: {
+  emailToken: {
     type: String
   },
-  instructor_details:{
-    experience_mode:{
-     type:String,
-    },
-    experience_years:{
-     type:String,
-    }
- },
  
 },{timestamp:true});
 

@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 
 const insrtructorSignUp = async(req,res) => {
     try {
-        const {experience_mode,experience_years} = req.body;
+        const {experience_years,field_of_study} = req.body;
+        console.log(req.user);
         //updating the experience details
         const response = await User.findOneAndUpdate({email:req.user},{instructor_details:req.body,isInstructor:true},{new:true})
         if(response.isInstructor) {
