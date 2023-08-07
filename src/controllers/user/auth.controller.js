@@ -10,6 +10,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto');
 const { sendVerificationMail } = require('../../utils/sendVerificationMail.js');
+const { token } = require('morgan');
+
 
 
 const createToken = (_id) => {
@@ -55,6 +57,7 @@ const userSignUp = catchAsync(async (req,res) => {
 
 const userLogin = catchAsync(async (req, res) => {
     try {
+        console.log("entred");
         console.log(req.body);
         const { email, password } =req.body;
         // checking whether the user exist
@@ -86,6 +89,12 @@ const userLogin = catchAsync(async (req, res) => {
     }
     
 })
+
+const getUserProfile = async(req,res) => {
+    const user = await User.findById({ _id: req.user })
+    console.log(user,'njaan aanu user')
+    res.status(200).json({ success: true, user})
+}
 
 //verifying the token
 const verifyToken = async(req,res)=>{
@@ -196,5 +205,6 @@ module.exports = {
     userLogin,
     verifyEmail,
     verifyToken,
-    resendEmail
+    resendEmail,
+    getUserProfile
 }

@@ -8,10 +8,13 @@ module.exports = {
     tokenVerification : async(req,res,next) => {
         try{
             console.log('Entered for token verification');
-            const token = req.headers.autherization;
+            const token = req.headers['autherization']?.split(' ')[1]
+            console.log(token)
             const decode = jwt.verify(token,process.env.JWT_SECRET);
-            req.user = decode.user;
-            console.log(req.user,'This is the user');
+            console.log(decode,'decoded')
+            const user = decode._id;
+            console.log(user,'This is the user');
+            req.user = user
             next();
         }catch (err) {  
             console.log(err);
