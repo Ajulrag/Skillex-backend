@@ -5,8 +5,10 @@ const { error,success } = require("../../utils/responseApi");
 module.exports = {
     addCategory : async(req, res) => {
         try {
+            console.log("arrived");
             //getting category details
             let {category_name,category_description} = req.body;
+            console.log(category_name,category_description);
             //converting category name into lowercase
             category_name = req.body.category_name.split(" ").join("-").toLowerCase()
             //checking whether category already exist
