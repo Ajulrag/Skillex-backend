@@ -7,13 +7,13 @@ module.exports = {
     //jwt token verification middleware
     tokenVerification : async(req,res,next) => {
         try{
-            console.log('Entered for token verification');
+            // console.log('Entered for token verification');
             const token = req.headers['autherization']?.split(' ')[1]
-            console.log(token)
+            // console.log(token)
             const decode = jwt.verify(token,process.env.JWT_SECRET);
-            console.log(decode,'decoded')
+            // console.log(decode,'decoded')
             const user = decode._id;
-            console.log(user,'This is the user');
+            // console.log(user,'This is the user');
             req.user = user
             next();
         }catch (err) {  
@@ -25,13 +25,18 @@ module.exports = {
     isBlocked:async(req,res,next) => {
         try {
             const user = await User.findOne({email:req.user});
-            if(user.status){
-                return res.status(403).json(error("Your account has been blocked"))
+            if(user.status === 'Inactive'){
+                // return res.json(success('OK',{token:token},res.statusCode)).status(200)
+                return res.json({msg:'Something went wrong, Please try after sometimes'}).status(200)
+
+                // return res.json(403).json(error("Your account has been blocked"))
             }else{
                 next()
             }
-        } catch (error) {
-            return res.status(500).json(error('Something went wrong, Try after sometimes'),res.statusCode)
+        } catch (err) {
+            return res.json({msg:'Something wentsdfgsdgfdfg wrong, Please try after sometimes'}).status(200)
+
+            // return res.status(500).json(err('Something went wrong, Try after sometimes',res.statusCode))
         }
     }
 }

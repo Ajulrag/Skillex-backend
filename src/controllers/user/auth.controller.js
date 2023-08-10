@@ -57,8 +57,6 @@ const userSignUp = catchAsync(async (req,res) => {
 
 const userLogin = catchAsync(async (req, res) => {
     try {
-        console.log("entred");
-        console.log(req.body);
         const { email, password } =req.body;
         // checking whether the user exist
         const isExist = await User.findOne({email:email})
@@ -71,8 +69,10 @@ const userLogin = catchAsync(async (req, res) => {
         }
         // checking whether user email is verified
         if(!isExist.email_verified){
+            console.log("===================================");
             return res.json({msg:'Please verify your email before login'}).status(403)
         }
+        
         //setting up the user status
         let role;
         if(isExist.isInstructor === true) {
