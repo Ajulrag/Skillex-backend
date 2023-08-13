@@ -1,4 +1,3 @@
-const authServices = require('../../services/user/auth.services.js');
 const  BadRequest  = require('../../utils/errors/badRequest.js');
 const { catchAsync } = require("../../utils/errors/catchAsync.js");
 const schema = require('../../utils/validations/auth.schema.js')
@@ -44,7 +43,7 @@ const userSignUp = catchAsync(async (req,res) => {
             emailToken:crypto.randomBytes(64).toString("hex")
         }).save();
          
-        sendVerificationMail(user)
+        sendVerificationMail(user,'register')
 
         const token = createToken(user._id)
 
