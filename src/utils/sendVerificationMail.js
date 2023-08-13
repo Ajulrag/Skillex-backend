@@ -5,7 +5,7 @@ const sendVerificationMail = (user, action) => {
   const confirmationLink =
     action === "register"
       ? `${process.env.REACT}/verify-email/${user.emailToken}`
-      : `${process.env.REACT}/reset/${user.emailToken}`;
+      : `${process.env.REACT}/reset/${user._id}/${user.emailToken}`;
   const mailOptions = {
     from: `"Skillex" <www.2323@gmail.com>`,
     to: user.email,
