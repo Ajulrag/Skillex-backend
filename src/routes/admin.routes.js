@@ -7,11 +7,11 @@ const {addCategory,getAllCategories,getCategory,updateCategoryStatus,editCategor
 const router = express.Router();
 
 router.post('/',adminLogin);
-router.get('/users', tokenVerification,getAllUsers)
+router.get('/users',getAllUsers)
 router.get('/instructors',getAllInstructors)
 router.put('/instructors/status/:id', updateInstructorStatus)
 
-router.put('/users/status/:id', tokenVerification,updateUserStatus)
+router.put('/users/status/:id',updateUserStatus)
 router.put('/users/edit/:id', tokenVerification, editUser)
 
 router.post('/categories/create', addCategory)
