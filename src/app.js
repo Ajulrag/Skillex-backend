@@ -10,6 +10,7 @@ const REACT = process.env.REACT;
 
 const indexRoutes = require('./routes/index.routes.js');
 const adminRoutes = require('./routes/admin.routes.js');
+const instructorRoutes = require('./routes/instructor.routes.js');
 
 /*CONFIG*/
 dotenv.config();
@@ -38,6 +39,7 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRoutes);
 app.use('/admin', adminRoutes);
+app.use('/instructor', instructorRoutes);
 
 
 
