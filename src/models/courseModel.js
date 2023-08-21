@@ -61,9 +61,11 @@ const Courses = mongoose.model('Courses',new mongoose.Schema({
     },
     price: {
         type: Number,
+        required: true
     },
-    salePrice: {
+    saleprice: {
         type: Number,
+        required: true
     },
     tutor:{
         type:mongoose.Types.ObjectId,
