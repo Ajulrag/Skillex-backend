@@ -46,5 +46,16 @@ module.exports = {
             console.error(err);
             return res.status(500).json(error("Something went wrong, Try after sometime"));
         }
+    },
+
+    getCourses: async (req, res) => {
+        try {
+            console.log("rec");
+            const courses = await Courses.find({ isApproved: "Approved", status: "Active" })
+            console.log(courses);
+            return res.status(200).json(success("OK", { courses }));
+        } catch (err) {
+            return res.status(500).json(error("Something went wrong, Try after sometime"));
+        }
     }
 }
