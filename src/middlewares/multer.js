@@ -1,8 +1,9 @@
+const { log } = require('console');
 const multer = require('multer');
 const path = require('path');
 
-const IMGDIR = path.join(__dirname,'../public/course/images');
-const VIDDIR = path.join(__dirname,'../public/course/videos');
+const IMGDIR = path.join(__dirname,'../public/courses/images');
+const VIDDIR = path.join(__dirname,'../public/courses/videos');
 
 
 const storage = multer.diskStorage({
