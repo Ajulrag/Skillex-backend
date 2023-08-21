@@ -24,6 +24,8 @@ module.exports = {
                 description,
                 duration,
                 category,
+                price,
+                saleprice
             } = req.body;
 
             // Create a new course instance
@@ -37,6 +39,8 @@ module.exports = {
                 tutor_name: req.body.tutor_name,
                 tutor_email: req.body.tutor_email,
                 category,
+                price,
+                saleprice
             });
 
             // Save the course to the database
