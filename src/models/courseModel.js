@@ -5,10 +5,6 @@ const Sections = {
         type: String,
         required:true
     },
-    section_description: {
-        type: String,
-        required: true
-    },
     lectures: [{
         lecture_title:{
             type: String,
