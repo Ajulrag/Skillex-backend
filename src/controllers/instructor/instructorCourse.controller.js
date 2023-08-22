@@ -61,5 +61,16 @@ module.exports = {
         } catch (err) {
             return res.status(500).json(error("Something went wrong, Try after sometime"));
         }
+    },
+
+    createCariculam: async (req, res) => {
+        try {
+            console.log('req.body', req.body);
+            console.log('req.files', req.files);
+
+            return res.status(200).json(success("OK"));
+        } catch (err) {
+            return res.status(500).json(error("Something went wrong, Try after sometime"));
+        }
     }
 }
