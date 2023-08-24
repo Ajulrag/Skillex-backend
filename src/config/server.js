@@ -14,7 +14,6 @@ dbConnection().then(() => {
   const io = new Server(httpServer, {
     cors: {
       origin: process.env.REACT,
-      methods: ['GET', 'POST'],
       credentials: true
     },
     allowEIO3: true
