@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 dotenv.config();
 const REACT = process.env.REACT;
 
-
+console.log(REACT);
 
 const indexRoutes = require('./routes/index.routes.js');
 const adminRoutes = require('./routes/admin.routes.js');
