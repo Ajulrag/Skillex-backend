@@ -8,7 +8,7 @@ module.exports = {
             const {email, password} = req.body;
             if(email===process.env.ADMIN_EMAIL && password===process.env.ADMIN_PASS) {
                 const token = jwt.sign({user:email,role:'admin'},process.env.JWT_SECRET)
-                return res.status(201).json({msg:'OKddd',token:token})
+                return res.status(200).json({msg:'OKddd',token:token})
             } else {
                 return res.json({msg:'Invalid Email or Password, Try again...'}).status(403)
 
