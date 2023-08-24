@@ -4,6 +4,7 @@ const logger = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+dotenv.config();
 const REACT = process.env.REACT;
 
 
@@ -13,7 +14,6 @@ const adminRoutes = require('./routes/admin.routes.js');
 const instructorRoutes = require('./routes/instructor.routes.js');
 
 /*CONFIG*/
-dotenv.config();
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());

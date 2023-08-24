@@ -3,7 +3,7 @@ dotenv.config({ path: '.env' });
 const { app } = require('../app.js');
 const { dbConnection } = require('./db.js');
 const { Server } = require('socket.io')
-const cors = require('cors');
+
 
 
 
@@ -23,9 +23,6 @@ dbConnection().then(() => {
   //socket connection
   io.on("connection", (socket) => {
     console.log("User connected");
-
-    roomHandler(socket);
-
     socket.on('disconnect', () => {
       console.log("user disconnected");
     })
