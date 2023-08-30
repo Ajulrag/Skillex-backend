@@ -71,10 +71,13 @@ const userLogin = catchAsync(async (req, res) => {
       return res
         .json({ msg: "Invalid Credentials, Please try again..." })
         .status(401);
+    } else if(isExist.status === "Inactive") {
+      return res
+        .json({ msg: "You are restricted to enter this website!!!"})
+        .status(403)
     }
     // checking whether user email is verified
     if (!isExist.email_verified) {
-      console.log("===================================");
       return res
         .json({ msg: "Please verify your email before login" })
         .status(403);

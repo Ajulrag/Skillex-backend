@@ -10,7 +10,6 @@ const { Server } = require('socket.io')
 
 dbConnection().then(() => {
   const httpServer = require('http').createServer(app)
-  console.log(process.env.REACT,"socket");
   const io = new Server(httpServer, {
     cors: {
       origin: process.env.REACT,

@@ -5,9 +5,8 @@ const Courses = require('../../models/courseModel');
 module.exports = {
     getAllCategories: async (req, res) => {
         try {
-            console.log("sdfa");
             const categories = await Category.find({ status: "Active" });
-            console.log(categories);
+            // console.log(categories);
             return res.status(200).json(success("OK", { categories }));
         } catch (err) {
             console.log(err);

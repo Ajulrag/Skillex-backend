@@ -9,7 +9,7 @@ module.exports = {
         try{
             // console.log("ethy");
             // console.log('Entered for token verification');
-            console.log(req.headers['autherization'])
+            // console.log(req.headers['autherization'])
             const token = req.headers['autherization']?.split(' ')[1]
 
             const decode = jwt.verify(token,process.env.JWT_SECRET);
