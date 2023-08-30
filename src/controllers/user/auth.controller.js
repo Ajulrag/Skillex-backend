@@ -102,7 +102,7 @@ const userLogin = catchAsync(async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   const user = await User.findById({ _id: req.user });
-  console.log(user, "njaan aanu user");
+  // console.log(user, "njaan aanu user");
   res.status(200).json({ success: true, user });
 };
 
@@ -198,6 +198,19 @@ const verifyEmail = async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 };
+// Assuming you've defined your User model and imported it as 'User'
+const statusCheck = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId); // Change '_id' to 'userId'
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({ msg: "User found", status: user.status });
+  } catch (error) {
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+}
 
 module.exports = {
   userSignUp,
@@ -207,4 +220,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getUserProfile,
+  statusCheck
 };
