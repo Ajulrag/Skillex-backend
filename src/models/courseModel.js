@@ -75,6 +75,6 @@ const Courses = mongoose.model('Courses',new mongoose.Schema({
         Sections
     ]
 
-}))
+},{ timestamps: true }))
 
 module.exports = Courses

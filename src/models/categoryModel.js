@@ -11,7 +11,8 @@ const Category = mongoose.model('Category',new mongoose.Schema({
     status:{
         type:String,
         default:"Active"
-    }
-}))
+    },
+    
+},{ timestamps: true }))
 
 module.exports = Category;
