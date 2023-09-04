@@ -44,7 +44,8 @@ module.exports = {
 
             // Save the course to the database
             const savedCourse = await newCourse.save();
-            return res.status(200).json(success("Course created successfully", { course: savedCourse }));
+            console.log(savedCourse._id);
+            return res.status(200).json(success("Course created successfully", { courseId: savedCourse._id }));
         } catch (err) {
             console.error(err);
             return res.status(500).json(error("Something went wrong, Try after sometime"));
@@ -66,9 +67,26 @@ module.exports = {
         try {
             console.log('req.body', req.body);
             console.log('req.files', req.files);
+            const { courseId } = req.body;
 
-            return res.status(200).json(success("OK"));
+            const course = await Courses.findById(courseId)
+
+
+            
+         // Update the curriculam field with data from req.body
+         course.curriculam = req.body.curriculam; // Assuming that req.body.curriculam is an array that matches your Sections schema
+
+         // Save the updated course
+         const updatedCourse = await course.save();
+ 
+         console.log(updatedCourse);
+
+
+            
+    
+            return res.status(200).json(success("Curriculum created successfully",{course:updatedCourse}));
         } catch (err) {
+            console.error(err);
             return res.status(500).json(error("Something went wrong, Try after sometime"));
         }
     }

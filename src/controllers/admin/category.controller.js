@@ -5,7 +5,7 @@ const { error,success } = require("../../utils/responseApi");
 module.exports = {
     addCategory : async(req, res) => {
         try {
-            console.log("arrived");
+            // console.log("arrived");
             //getting category details
             let {category_name,category_description} = req.body;
             console.log(category_name,category_description);
