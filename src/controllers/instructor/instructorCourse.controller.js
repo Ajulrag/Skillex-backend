@@ -16,6 +16,7 @@ module.exports = {
 
     submitCourse: async (req, res) => {
         try {
+            console.log("dfgsdfgfdgfd");
             // Extract data from the request body
             const {
                 course_title,
