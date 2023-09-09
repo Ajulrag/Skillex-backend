@@ -71,9 +71,9 @@ const userLogin = catchAsync(async (req, res) => {
       return res
         .json({ msg: "Invalid Credentials, Please try again..." })
         .status(401);
-    } else if(isExist.status === "Inactive") {
+    } else if (isExist.status === "Inactive") {
       return res
-        .json({ msg: "You are restricted to enter this website!!!"})
+        .json({ msg: "You are restricted to enter this website!!!" })
         .status(403)
     }
     // checking whether user email is verified
@@ -135,8 +135,7 @@ const forgotPassword = async (req, res) => {
         .json(error("No user found with the provided email"));
     }
     isExist.emailToken = crypto.randomBytes(64).toString("hex");
-   const user = await isExist.save();
-    console.log(user,"hifsdghgfsdhigfsdhjkfsdhgfsd");
+    const user = await isExist.save();
     //generating the confirmation link
     sendVerificationMail(user, "reset");
     const token = createToken(user._id);
@@ -151,27 +150,27 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-    try {
-      const { password, user } = req.body;
-      // checking whether user exists
-      const isExist = await User.findOne({ _id: user });
-      if (!isExist) {
-        return res.status(404).json(error("User not found, Try again..."));
-      }
-      // hashing the new password
-      const hash = await bcrypt.hash(password, 10);
-      // updating the password
-      isExist.password = hash;
-      await isExist.save();
-      return res.status(200).json(success("OK"));
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ msg: "something went wrong" });
+  try {
+    const { password, user } = req.body;
+    // checking whether user exists
+    const isExist = await User.findOne({ _id: user });
+    if (!isExist) {
+      return res.status(404).json(error("User not found, Try again..."));
     }
-  };
-  
-  
-  
+    // hashing the new password
+    const hash = await bcrypt.hash(password, 10);
+    // updating the password
+    isExist.password = hash;
+    await isExist.save();
+    return res.status(200).json(success("OK"));
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "something went wrong" });
+  }
+};
+
+
+
 
 //verify email confirmation link
 const verifyEmail = async (req, res) => {
@@ -215,6 +214,37 @@ const statusCheck = async (req, res) => {
   }
 }
 
+const updateProfile = async (req, res) => {
+  try {
+    console.log("efefe");
+    const { name, fieldOfStudy, experienceYears,userId } = req.body;
+    console.log(userId);
+    // Assuming you've defined your User model and imported it as 'User'
+    const user = await User.findById(userId); // Assuming you have a user ID in the request (e.g., after authentication)
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Update the user's profile fields
+    user.name = name;
+
+    // Check if the user is an instructor before updating these fields
+    if (user.isInstructor) {
+      user.instructor_details.field_of_study = fieldOfStudy;
+      user.instructor_details.experience_years = experienceYears;
+    }
+
+    // Save the updated user data
+    await user.save();
+
+    return res.status(200).json({ msg: "Profile updated successfully", user });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+};
+
 module.exports = {
   userSignUp,
   userLogin,
@@ -223,5 +253,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getUserProfile,
-  statusCheck
+  statusCheck,
+  updateProfile
 };

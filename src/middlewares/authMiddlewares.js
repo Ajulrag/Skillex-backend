@@ -7,7 +7,7 @@ module.exports = {
     //jwt token verification middleware
     tokenVerification : async(req,res,next) => {
         try{
-            // console.log("ethy");
+            console.log("ethy");
             // console.log('Entered for token verification');
             // console.log(req.headers['autherization'])
             const token = req.headers['autherization']?.split(' ')[1]
