@@ -51,5 +51,5 @@ app.use('/instructor', instructorRoutes);
 
 
 
-module.exports = { app, IMGDIR, VIDDIR };
+module.exports = { app };
 

@@ -1,29 +1,31 @@
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 const path = require('path');
 
-const IMGDIR = path.join(__dirname,'../public/courses/images');
-const VIDDIR = path.join(__dirname,'../public/courses/videos');
-
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        //checking the file type and store in the appropriate durectory
-        if (file.mimetype === 'video/mp4' || file.mimetype === 'video/mkv') {
-            cb(null, VIDDIR);
-        } else if (file.mimetype.startsWith('image/')) {
-            cb(null, IMGDIR);
-        } else {
-            cb(new Error('Invalid file type'));
-        }
-    },
-    filename: function(req, file, cb) {
-        //set the file name and extension
-        const ext = file.mimetype.split('/')[1];
-        cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
-    },
+// Configure AWS SDK with your credentials
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 });
 
-const upload = multer({ storage });
-module.exports = {
-    upload
-}
+
+// Set up multer for S3 upload
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    acl: 'public-read', // Set ACL to control access (public-read for public access)
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, `uploads/${Date.now().toString()}${ext}`);
+    },
+  }),
+});
+
+module.exports = { upload };
