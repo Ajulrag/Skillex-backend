@@ -1,11 +1,10 @@
-const { success, error, validation } = require('../../utils/responseApi');
 const User = require('../../models/userModel');
+const { success, error, validation } = require('../../utils/responseApi');
 
 
 module.exports = {
     updateUserStatus:async (req,res) => {
         try {
-            console.log(req.params.id);
             const user = req.params.id;
             const status = req.query.status
             //checking whether the user esists
@@ -16,9 +15,8 @@ module.exports = {
             //updating the user status
             isExist.status = status;
             await isExist.save();
-            return res.status(200).json(success('OK'))
+            return res.status(200).json(success('User status updated'))
         } catch (err) {
-            console.log(err);
             return res.status(500).json(error('Something went wrong, Try after sometimes'))
         }
     },

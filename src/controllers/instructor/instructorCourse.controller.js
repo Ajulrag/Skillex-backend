@@ -1,22 +1,19 @@
 const Category = require('../../models/categoryModel');
-const { error, success } = require("../../utils/responseApi");
 const Courses = require('../../models/courseModel');
+const { error, success } = require("../../utils/responseApi");
 
 module.exports = {
   getAllCategories: async (req, res) => {
     try {
       const categories = await Category.find({ status: "Active" });
-      // console.log(categories);
-      return res.status(200).json(success("OK", { categories }));
+      return res.status(200).json(success("All categories", { categories }));
     } catch (err) {
-      console.log(err);
       return res.status(500).json(error("Something went wrong, Try after sometime"));
     }
   },
 
   submitCourse: async (req, res) => {
     try {
-      // Extract data from the request body
       const {
         course_title,
         course_subtitle,
@@ -44,22 +41,17 @@ module.exports = {
         course_subtitle,
         description,
         duration,
-        promotional_Video: promotionalVideoUrl, // Store the S3 URL
-        course_image: courseImageUrl, // Store the S3 URL
+        promotional_Video: promotionalVideoUrl,
+        course_image: courseImageUrl, 
         tutor_name,
         tutor_email,
         category,
         price,
         saleprice,
       });
-  
-      // Save the course to the database
       const savedCourse = await newCourse.save();
-      console.log(savedCourse._id);
-  
       return res.status(200).json(success("Course created successfully", { courseId: savedCourse._id }));
     } catch (err) {
-      console.error(err);
       return res.status(500).json(error("Something went wrong, Try after sometime"));
     }
   },
@@ -79,42 +71,41 @@ module.exports = {
   createCariculam: async (req, res) => {
     try {
       const { courseId, sections } = req.body;
-      console.log(req.body.curriculam[0].videos, "I am request===========================================");
-      console.log(req.files, "I ama videos")
-
-      // // Find the course by its ID
+      if (!sections || !Array.isArray(sections)) {
+        return res.status(400).json({ error: 'Invalid curriculum data' });
+      }
+  
       const course = await Courses.findById(courseId);
-
       if (!course) {
         return res.status(404).json({ error: 'Course not found' });
       }
-
-      // // Process uploaded video files and store their paths
+  
+      // Process uploaded video files and store their paths
       const videoFiles = req.files.map((file) => {
         return {
           title: file.originalname,
-          path: file.path,
+          path: file.location, 
         };
       });
-
-      // // Update the curriculum with the uploaded video files
+  
+      // Update the curriculum with the uploaded video files
       sections.forEach((section, sectionIndex) => {
-        section.videos.forEach((video, videoIndex) => {
-          if (videoFiles.length > 0) {
-            const uploadedVideo = videoFiles.shift();
-            video.title = uploadedVideo.title;
-            video.videoFile = uploadedVideo.path;
-          }
-        });
+        if (section.videos && Array.isArray(section.videos)) {
+          section.videos.forEach((video, videoIndex) => {
+            if (videoFiles.length > 0) {
+              const uploadedVideo = videoFiles.shift();
+              video.title = uploadedVideo.title;
+              video.videoFile = uploadedVideo.path;
+            }
+          });
+        }
       });
-
-      // // Save the course with the updated curriculum
       await course.save();
-
       res.status(200).json({ message: 'Curriculum uploaded successfully!' });
     } catch (error) {
-      console.error('Error uploading curriculum:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+  
+  
 }

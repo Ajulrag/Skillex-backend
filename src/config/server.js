@@ -1,11 +1,8 @@
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
 const { app } = require('../app.js');
 const { dbConnection } = require('./db.js');
 const { Server } = require('socket.io')
-
-
-
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
 
 
 dbConnection().then(() => {
